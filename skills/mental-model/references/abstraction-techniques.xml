@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<abstraction_techniques>
+  <why_how_laddering_5_whys_means_end_chains>
+    <direction>both</direction>
+    <when_to_use>Connecting goals to actions, or tracing a symptom to its root cause.</when_to_use>
+  </why_how_laddering_5_whys_means_end_chains>
+  <hayakawa_s_abstraction_ladder>
+    <direction>both</direction>
+    <when_to_use>Moving between concrete instances and general terms in language.</when_to_use>
+  </hayakawa_s_abstraction_ladder>
+  <induction_instance_pattern_principle_theory>
+    <direction>up</direction>
+    <when_to_use>You have many examples and need the rule behind them.</when_to_use>
+  </induction_instance_pattern_principle_theory>
+  <deduction_principle_case_example>
+    <direction>down</direction>
+    <when_to_use>You have a rule and need to test or illustrate it.</when_to_use>
+  </deduction_principle_case_example>
+  <issue_trees_mece_decomposition_wbs>
+    <direction>down</direction>
+    <when_to_use>Breaking a problem or project into non-overlapping parts.</when_to_use>
+  </issue_trees_mece_decomposition_wbs>
+  <affinity_diagramming_clustering_taxonomy_building>
+    <direction>up</direction>
+    <when_to_use>You have unsorted items and need categories.</when_to_use>
+  </affinity_diagramming_clustering_taxonomy_building>
+  <roll_up_drill_down_olap_group_by>
+    <direction>both</direction>
+    <when_to_use>Quantitative data that aggregates across dimensions.</when_to_use>
+  </roll_up_drill_down_olap_group_by>
+  <semantic_zooming>
+    <direction>both</direction>
+    <when_to_use>Exploring large maps, graphs, or codebases interactively, with detail changing by zoom level.</when_to_use>
+  </semantic_zooming>
+  <c4_model_context_container_component_code>
+    <direction>both</direction>
+    <when_to_use>Software architecture with audience-specific zoom.</when_to_use>
+  </c4_model_context_container_component_code>
+  <marr_s_three_levels_computational_algorithmic_implementation>
+    <direction>both</direction>
+    <when_to_use>Separating what a system does from how it does it and on what.</when_to_use>
+  </marr_s_three_levels_computational_algorithmic_implementation>
+  <goal_strategy_tactic_action>
+    <direction>down</direction>
+    <when_to_use>Planning and aligning teams on the same objective.</when_to_use>
+  </goal_strategy_tactic_action>
+  <pyramid_principle_inverted_pyramid>
+    <direction>up</direction>
+    <when_to_use>Writing: conclusion first, then support, then detail.</when_to_use>
+  </pyramid_principle_inverted_pyramid>
+  <progressive_hierarchical_map_reduce_summarization>
+    <direction>up</direction>
+    <when_to_use>Long documents: summarize chunks, then summarize the summaries.</when_to_use>
+  </progressive_hierarchical_map_reduce_summarization>
+  <recursive_summary_trees_raptor_style>
+    <direction>both</direction>
+    <when_to_use>LLM retrieval that must answer both broad and detailed questions.</when_to_use>
+  </recursive_summary_trees_raptor_style>
+  <stepwise_refinement_wirth>
+    <direction>down</direction>
+    <when_to_use>Writing code or specs by successive elaboration.</when_to_use>
+  </stepwise_refinement_wirth>
+  <ontology_concept_map_is_a_part_of_relations>
+    <direction>both</direction>
+    <when_to_use>Making the levels and their relations explicit.</when_to_use>
+  </ontology_concept_map_is_a_part_of_relations>
+  <analogy_invariant_extraction>
+    <direction>up</direction>
+    <when_to_use>Finding structure that transfers across domains (what stays the same across cases).</when_to_use>
+  </analogy_invariant_extraction>
+  <audience_tiered_rewrite_eli5_practitioner_expert>
+    <direction>both</direction>
+    <when_to_use>Delivering the same content to readers with different expertise.</when_to_use>
+  </audience_tiered_rewrite_eli5_practitioner_expert>
+</abstraction_techniques>

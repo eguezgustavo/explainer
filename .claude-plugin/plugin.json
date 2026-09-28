@@ -1,7 +1,7 @@
 {
   "name": "explainer",
   "description": "Skills for picking the best non-linguistic way to explain or represent a concept.",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "author": {
     "name": "Gustavo Eguez"
   },
