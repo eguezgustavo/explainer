@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<non_linguistic_mental_models>
+  <interactive_html_js_canvas_webgl_visualizers>
+    <when_to_use>Custom interactive tools/dashboards with no existing library fit; full control over UI and interaction.</when_to_use>
+  </interactive_html_js_canvas_webgl_visualizers>
+  <mermaid_js_flowcharts_sequence_diagrams>
+    <when_to_use>Quick logic flows, sequence/timing between actors, git graphs; fast to write, renders natively in many tools.</when_to_use>
+  </mermaid_js_flowcharts_sequence_diagrams>
+  <graphviz_dot_network_dependency_graphs>
+    <when_to_use>Large directed graphs (dependency trees, call graphs) where auto-layout matters more than manual positioning.</when_to_use>
+  </graphviz_dot_network_dependency_graphs>
+  <plantuml_architecture_component_diagrams>
+    <when_to_use>Formal software architecture (components, deployment, use-case) when a text-based UML standard is expected.</when_to_use>
+  </plantuml_architecture_component_diagrams>
+  <svg_vector_diagrams_flow_schematics>
+    <when_to_use>Precise custom diagrams needing exact shapes/positions not covered by a diagramming DSL.</when_to_use>
+  </svg_vector_diagrams_flow_schematics>
+  <ascii_unicode_text_art_diagrams>
+    <when_to_use>Quick inline diagrams in plain-text contexts (terminal, code comments, markdown without render support).</when_to_use>
+  </ascii_unicode_text_art_diagrams>
+  <python_plotly_interactive_charts_heatmaps>
+    <when_to_use>Exploratory data viz needing zoom/hover/tooltips, especially in notebooks or web dashboards.</when_to_use>
+  </python_plotly_interactive_charts_heatmaps>
+  <matplotlib_seaborn_static_statistical_plots>
+    <when_to_use>Publication-quality static statistical plots (distributions, regressions) for reports/papers.</when_to_use>
+  </matplotlib_seaborn_static_statistical_plots>
+  <graphology_d3_js_force_directed_network_graphs>
+    <when_to_use>Large relational networks where clustering/community structure should emerge visually.</when_to_use>
+  </graphology_d3_js_force_directed_network_graphs>
+  <latex_tikz_geometric_mathematical_figures>
+    <when_to_use>Precise math/geometry figures for academic papers matching LaTeX typesetting.</when_to_use>
+  </latex_tikz_geometric_mathematical_figures>
+  <latex_forest_tree_diagrams>
+    <when_to_use>Linguistic parse trees or hierarchical trees inside LaTeX documents.</when_to_use>
+  </latex_forest_tree_diagrams>
+  <manim_mathematical_animation_scripts>
+    <when_to_use>Step-by-step animated derivations/proofs (3Blue1Brown-style) for teaching math concepts.</when_to_use>
+  </manim_mathematical_animation_scripts>
+  <xstate_json_state_machine_definitions>
+    <when_to_use>Formal state/transition logic for software (UI flows, protocols) that needs to be executable, not just illustrative.</when_to_use>
+  </xstate_json_state_machine_definitions>
+  <react_flow_vue_flow_component_layouts>
+    <when_to_use>Interactive, draggable node-based UIs embedded in a web app (pipeline builders, editors).</when_to_use>
+  </react_flow_vue_flow_component_layouts>
+  <openscad_declarative_3d_mesh_code>
+    <when_to_use>Parametric 3D models for 3D printing/CAD defined by code (dimensions as variables).</when_to_use>
+  </openscad_declarative_3d_mesh_code>
+  <asymptote_vector_graphics_descriptions>
+    <when_to_use>Technical vector graphics with precise math-based coordinates; alternative to TikZ.</when_to_use>
+  </asymptote_vector_graphics_descriptions>
+  <chart_js_recharts_dashboard_visualizations>
+    <when_to_use>Standard business dashboards (bar/line/pie) embedded in web apps with minimal setup.</when_to_use>
+  </chart_js_recharts_dashboard_visualizations>
+  <echarts_complex_multi_axis_data_plots>
+    <when_to_use>Dense dashboards needing multiple axes, large datasets, or combined chart types in one view.</when_to_use>
+  </echarts_complex_multi_axis_data_plots>
+  <vega_vega_lite_grammar_graphics_specs>
+    <when_to_use>Declarative, reproducible chart specs where the visualization itself is data (JSON) to be shared/versioned.</when_to_use>
+  </vega_vega_lite_grammar_graphics_specs>
+  <structurizr_c4_software_models>
+    <when_to_use>Layered software architecture (context &gt; container &gt; component) using the C4 model convention.</when_to_use>
+  </structurizr_c4_software_models>
+  <bpmn_xml_business_process_workflows>
+    <when_to_use>Formal business process diagrams meant to be understood/exchanged by non-developers (ops, compliance).</when_to_use>
+  </bpmn_xml_business_process_workflows>
+  <networkx_topology_centrality_plots>
+    <when_to_use>Graph analysis requiring computed metrics (centrality, shortest paths) visualized alongside the graph.</when_to_use>
+  </networkx_topology_centrality_plots>
+  <sympy_expression_trees_equation_graphs>
+    <when_to_use>Visualizing the structure of symbolic math expressions (parse trees of formulas).</when_to_use>
+  </sympy_expression_trees_equation_graphs>
+  <pyvis_interactive_html_network_graphs>
+    <when_to_use>Quick interactive network exploration exported as a standalone HTML file, no server needed.</when_to_use>
+  </pyvis_interactive_html_network_graphs>
+  <graphviz_decision_trees_random_forest_visuals>
+    <when_to_use>Visualizing trained ML tree models' actual split structure.</when_to_use>
+  </graphviz_decision_trees_random_forest_visuals>
+  <wavedrom_digital_timing_logic_diagrams>
+    <when_to_use>Hardware/embedded signal timing diagrams (clock, bus signals).</when_to_use>
+  </wavedrom_digital_timing_logic_diagrams>
+  <vexflow_musical_score_notation_code>
+    <when_to_use>Rendering sheet music/notation programmatically.</when_to_use>
+  </vexflow_musical_score_notation_code>
+  <gnuplot_scripted_mathematical_plots>
+    <when_to_use>Quick scripted 2D/3D math plots, common in scientific/engineering scripting pipelines.</when_to_use>
+  </gnuplot_scripted_mathematical_plots>
+  <circos_genomic_relational_chord_diagrams>
+    <when_to_use>Circular chord diagrams for many-to-many relationships (genomics, but also flows between many categories).</when_to_use>
+  </circos_genomic_relational_chord_diagrams>
+  <uml_class_entity_relationship_schematics>
+    <when_to_use>Object-oriented class structures or database schema relationships.</when_to_use>
+  </uml_class_entity_relationship_schematics>
+  <interactive_html_css_decision_trees_matrix_quadrants>
+    <when_to_use>2x2 strategic matrices (e.g. Eisenhower, risk/impact) meant to be clicked through or filled in.</when_to_use>
+  </interactive_html_css_decision_trees_matrix_quadrants>
+  <custom_canvas_particle_system_simulations>
+    <when_to_use>Visualizing emergent/physics-like behavior (swarms, diffusion) for intuition-building.</when_to_use>
+  </custom_canvas_particle_system_simulations>
+  <glsl_shader_code_visual_simulations>
+    <when_to_use>GPU-driven visual effects or physical field simulations (fluid, light) needing real-time performance.</when_to_use>
+  </glsl_shader_code_visual_simulations>
+  <pygame_micro_game_interactive_logic_scripts>
+    <when_to_use>Teaching a concept through a small playable simulation/game loop.</when_to_use>
+  </pygame_micro_game_interactive_logic_scripts>
+  <three_js_procedural_scene_geometry_scripts>
+    <when_to_use>Interactive 3D scenes in-browser (robot kinematics, spatial layouts).</when_to_use>
+  </three_js_procedural_scene_geometry_scripts>
+  <raylib_processing_visual_simulation_code>
+    <when_to_use>Quick standalone visual simulations/prototypes outside a browser.</when_to_use>
+  </raylib_processing_visual_simulation_code>
+  <r_ggplot2_grammar_graphics_visualizations>
+    <when_to_use>Statistical visualization within an R analysis pipeline, faceted/layered plots.</when_to_use>
+  </r_ggplot2_grammar_graphics_visualizations>
+  <pencil_js_2d_scene_graphs>
+    <when_to_use>Simple 2D animated scenes with a lightweight scene-graph API instead of raw Canvas.</when_to_use>
+  </pencil_js_2d_scene_graphs>
+  <p3d_processing_py_3d_render_models>
+    <when_to_use>Creative-coding style 3D renders where code-as-art matters more than engineering precision.</when_to_use>
+  </p3d_processing_py_3d_render_models>
+  <interactive_decision_trees_branching_diagrams>
+    <when_to_use>Walking someone through sequential yes/no logic or ML decision paths interactively.</when_to_use>
+  </interactive_decision_trees_branching_diagrams>
+  <finite_state_machine_automators>
+    <when_to_use>Modeling systems with discrete states/events (protocols, UI modes, hardware control logic).</when_to_use>
+  </finite_state_machine_automators>
+  <interactive_2d_3d_simulations>
+    <when_to_use>Physics or parameter-driven systems where sliders let the user see cause-and-effect live.</when_to_use>
+  </interactive_2d_3d_simulations>
+  <node_based_flowcharts_state_machines>
+    <when_to_use>General process/logic flow where nodes and edges are the natural representation.</when_to_use>
+  </node_based_flowcharts_state_machines>
+  <dynamic_charts_data_plots>
+    <when_to_use>Straightforward quantitative comparison over categories or time.</when_to_use>
+  </dynamic_charts_data_plots>
+  <interactive_system_network_topology_diagrams>
+    <when_to_use>Infrastructure/dependency maps where you need to explore connections dynamically.</when_to_use>
+  </interactive_system_network_topology_diagrams>
+  <sankey_data_flow_diagrams>
+    <when_to_use>Showing volume/flow allocation between stages (budget flow, funnel drop-off, energy/material flow).</when_to_use>
+  </sankey_data_flow_diagrams>
+  <treemaps_visual_matrices>
+    <when_to_use>Proportional part-to-whole breakdowns or spatial grouping by two dimensions.</when_to_use>
+  </treemaps_visual_matrices>
+  <mathematical_algorithmic_animations>
+    <when_to_use>Showing an algorithm's step-by-step state changes (sorting, search, gradient descent).</when_to_use>
+  </mathematical_algorithmic_animations>
+  <audio_sonification_signal_visualizers>
+    <when_to_use>Representing signals/data as sound or waveform; useful for embedded/DSP debugging.</when_to_use>
+  </audio_sonification_signal_visualizers>
+</non_linguistic_mental_models>
