@@ -1,6 +1,6 @@
 ---
 name: mental-model
-description: Pick the single best non-linguistic mental model (diagram type, chart library, animation, simulation, or other non-prose representation) for explaining, teaching, or building a given concept. Grounded in references/non-linguistic.xml, a curated list of ~50 techniques each with a "when to use" criterion. Use when the user asks "what's the best way to visualize/diagram/represent/animate X", "what non-linguistic mental model fits this", "how should I show this without words", or whenever several representation techniques could plausibly fit a concept and the right one isn't obvious. Also use before building a diagram, chart, simulation, or interactive visual when the choice of technique hasn't already been made.
+description: Pick the single best non-linguistic mental model (diagram type, chart library, animation, simulation, or other non-prose representation) for explaining, teaching, or building a given concept, then build it. Grounded in references/non-linguistic.xml, a curated list of ~50 techniques each with a "when to use" criterion. Use when the user asks "what's the best way to visualize/diagram/represent/animate X", "what non-linguistic mental model fits this", "how should I show this without words", or whenever several representation techniques could plausibly fit a concept and the right one isn't obvious. Also use before building a diagram, chart, simulation, or interactive visual when the choice of technique hasn't already been made.
 ---
 
 # Mental Model Picker
@@ -24,7 +24,7 @@ Selects the best non-linguistic (non-prose) way to represent a concept, by match
    - The one or two words of its `<when_to_use>` that clinched it.
    - Why it beats the next-closest alternative from the catalog, in one sentence.
 
-5. **Offer to build it, don't assume it.** This skill's job stops at *choosing* the representation — ask before producing the actual diagram/chart/animation, since that step may belong to a more specific skill or tool already available in this session (for example an artifacts/diagramming/dataviz skill, or a plotting library) rather than this one.
+5. **Build it.** Don't stop at the recommendation — produce the actual diagram/chart/animation/simulation using whatever tool fits the chosen technique best in this session (inline Mermaid/SVG/ASCII in the reply, the Artifact tool for something that wants its own page, a plotting library, an existing diagramming/dataviz skill already available here, etc.). Defer to a more specific skill or tool for the *build* step when one is loaded and fits better, but don't ask permission first just to start building — only pause if the build itself needs something genuinely disruptive (installing a new dependency, an external network call, overwriting an existing file) that would warrant confirmation on its own.
 
 ## Notes
 
