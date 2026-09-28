@@ -1,6 +1,6 @@
 ---
 name: mental-model
-description: Pick the single best non-linguistic mental model (diagram type, chart library, animation, simulation, or other non-prose representation) for explaining, teaching, or building a given concept, then build it. Grounded in references/non-linguistic.xml, a curated list of ~50 techniques each with a "when to use" criterion. Use when the user asks "what's the best way to visualize/diagram/represent/animate X", "what non-linguistic mental model fits this", "how should I show this without words", or whenever several representation techniques could plausibly fit a concept and the right one isn't obvious. Also use before building a diagram, chart, simulation, or interactive visual when the choice of technique hasn't already been made.
+description: Pick the single best non-linguistic mental model (diagram type, chart library, animation, simulation, or other non-prose representation) for explaining, teaching, or building a given concept, then build it and save it as a viewable file automatically. Grounded in references/non-linguistic.xml, a curated list of ~50 techniques each with a "when to use" criterion. Use when the user asks "what's the best way to visualize/diagram/represent/animate X", "what non-linguistic mental model fits this", "how should I show this without words", or whenever several representation techniques could plausibly fit a concept and the right one isn't obvious. Also use before building a diagram, chart, simulation, or interactive visual when the choice of technique hasn't already been made.
 ---
 
 # Mental Model Picker
@@ -25,6 +25,12 @@ Selects the best non-linguistic (non-prose) way to represent a concept, by match
    - Why it beats the next-closest alternative from the catalog, in one sentence.
 
 5. **Build it.** Don't stop at the recommendation — produce the actual diagram/chart/animation/simulation using whatever tool fits the chosen technique best in this session (inline Mermaid/SVG/ASCII in the reply, the Artifact tool for something that wants its own page, a plotting library, an existing diagramming/dataviz skill already available here, etc.). Defer to a more specific skill or tool for the *build* step when one is loaded and fits better, but don't ask permission first just to start building — only pause if the build itself needs something genuinely disruptive (installing a new dependency, an external network call, overwriting an existing file) that would warrant confirmation on its own.
+
+6. **Produce a viewable artifact automatically — don't wait to be asked.** Inline code (a Mermaid block, an SVG snippet) is not itself something the user can open and view; turn it into an actual file they can look at, in the same turn as the build, without a follow-up round-trip:
+   - For anything a browser can render (Mermaid, SVG, an HTML/JS visualization, a chart library), write a single self-contained HTML file that loads what it needs (e.g. the Mermaid.js CDN build) and displays the diagram/chart directly — no separate server, no build step, no new local dependency required to *view* it.
+   - For a technique whose natural output is already a standalone file (an image, a `.dot`/`.puml` source, a notebook, a script), produce that file instead of forcing it into HTML.
+   - Still ask the user which directory to save it in — don't default to one silently — then save it there and confirm the path back to them. Only skip that ask if they already told you the directory (in this request or a standing preference).
+   - This step is about producing something *viewable on disk*, not about publishing to a hosted service — reach for the Artifact tool here only if the user's medium/audience from step 2 actually calls for a shareable hosted page, not as the default.
 
 ## Notes
 
