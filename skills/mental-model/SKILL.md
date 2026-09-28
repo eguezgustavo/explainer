@@ -36,3 +36,4 @@ Selects the best non-linguistic (non-prose) way to represent a concept, by match
 
 - If nothing in the catalog fits well, say so plainly rather than forcing a weak match — recommend prose, or note the gap so the catalog (`references/non-linguistic.xml`) can be extended.
 - This skill never edits `references/non-linguistic.xml` on its own; if the user wants to add/remove/tune a technique, treat that as a separate, explicit request.
+- Before saving a Mermaid build, scan the label/message text for a bare `;` — Mermaid treats it as a statement terminator even inside a sequence-diagram message, and one occurrence silently breaks the whole diagram's parse (surfaces as a "Syntax error in text" box, not an HTML/JS error). Use a comma or em dash instead. The same caution applies to any other DSL with its own reserved punctuation (Graphviz, PlantUML, etc.) — check the chosen technique's syntax before treating the build as done, not just the surrounding HTML.
