@@ -50,8 +50,8 @@ generating an interactive HTML page rather than terminal text. The page walks a
 edges. Each level is in plain words with a concrete example from the app, lets
 you predict before it reveals the verified answer, shows diagrams (with a
 step-through for journeys), and gates the next level behind a
-say-it-without-looking check. Metaphors are optional and collapsed by default.
-Your notes and progress stay in your browser.
+say-it-without-looking check. The text is plain, simple English, with no
+metaphors unless you ask. Your notes and progress stay in your browser.
 
 Every claim is verified against the real code before it reaches the page: the
 build script refuses to produce the page if a "verified" file, line, snippet or
