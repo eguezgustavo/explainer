@@ -4,97 +4,41 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>__EXPLAIN_TITLE__</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+<!-- Material UI 5 is the last MUI major that ships a single-file browser build. Versions are pinned. -->
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mui/material@5.18.0/umd/material-ui.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
 <style>
-  :root {
-    color-scheme: light dark;
-    --bg: #fafaf9; --fg: #1c1917; --muted: #78716c; --card: #ffffff; --line: #e7e5e4;
-    --accent: #1d4ed8; --accent-fg: #ffffff; --ok: #15803d; --ok-bg: #dcfce7;
-    --warn: #b45309; --warn-bg: #fef3c7; --code-bg: #f5f5f4;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #16130f; --fg: #e7e5e4; --muted: #a8a29e; --card: #201c18; --line: #3a342f;
-      --accent: #60a5fa; --accent-fg: #0b1220; --ok: #4ade80; --ok-bg: #14301f;
-      --warn: #fbbf24; --warn-bg: #3a2a0a; --code-bg: #2a2521;
-    }
-  }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--fg); line-height: 1.55;
-    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
-  .wrap { max-width: 860px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
-  header h1 { font-size: 1.4rem; margin: 0 0 .25rem; }
-  .meta { color: var(--muted); font-size: .85rem; margin: 0; }
-  .scenario { margin: .75rem 0 0; padding: .6rem .8rem; border-left: 3px solid var(--accent); background: var(--card); border-radius: 0 8px 8px 0; font-size: .95rem; }
-  nav#tabs { display: flex; gap: .4rem; overflow-x: auto; padding: 1rem 0 .5rem; }
-  .tab { flex: 0 0 auto; font: inherit; font-size: .85rem; padding: .4rem .8rem; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--fg); cursor: pointer; white-space: nowrap; }
-  .tab.active { background: var(--fg); color: var(--bg); border-color: var(--fg); }
-  .tab.passed:not(.active) { border-color: var(--ok); color: var(--ok); }
-  .tab.locked:not(.active) { opacity: .55; }
-  .tab:disabled { opacity: .3; cursor: default; }
-  h2 { font-size: 1.25rem; margin: .5rem 0 .25rem; }
-  h2 small { color: var(--muted); font-weight: 400; font-size: .8rem; margin-left: .5rem; }
-  h3 { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 .5rem; }
-  h4 { margin: .75rem 0 .35rem; font-size: 1rem; }
-  .question { font-size: 1.05rem; margin: 0 0 1rem; }
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1rem 1.1rem; margin: 0 0 1rem; }
-  textarea { width: 100%; font: inherit; font-size: .95rem; padding: .6rem .7rem; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); resize: vertical; }
-  .btn { font: inherit; font-size: .9rem; padding: .45rem .95rem; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--fg); cursor: pointer; }
-  .btn.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
-  .btn:disabled { opacity: .4; cursor: default; }
-  .row { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; margin-top: .6rem; }
-  .hint { color: var(--muted); font-size: .85rem; }
-  .summary { font-size: 1.05rem; margin: 0 0 .75rem; }
-  .example { background: var(--code-bg); border-radius: 8px; padding: .6rem .8rem; margin: 0; font-size: .95rem; }
-  .example b { display: block; font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: .15rem; }
-  ul.points { margin: .25rem 0 .25rem 1.1rem; padding: 0; }
-  ul.points li { margin: .2rem 0; }
-  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin: 0 0 .75rem; }
-  .compare > div { background: var(--code-bg); border-radius: 8px; padding: .6rem .8rem; font-size: .92rem; white-space: pre-wrap; }
-  .compare b { display: block; font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: .15rem; }
-  @media (max-width: 600px) { .compare { grid-template-columns: 1fr; } }
-  .diagram { display: flex; justify-content: center; overflow-x: auto; margin: .5rem 0; }
-  .diagram svg { max-width: 100%; height: auto; }
-  .diagram pre, .fallback pre { background: var(--code-bg); padding: .6rem .8rem; border-radius: 8px; overflow-x: auto; font-size: .8rem; }
-  .caption { text-align: center; margin: .25rem 0; min-height: 1.5em; }
-  .controls { display: flex; gap: .8rem; justify-content: center; align-items: center; }
-  .counter { color: var(--muted); font-size: .85rem; min-width: 4rem; text-align: center; }
-  ul.evidence { list-style: none; margin: 0; padding: 0; }
-  ul.evidence li { display: flex; gap: .5rem; align-items: baseline; margin: .35rem 0; font-size: .9rem; flex-wrap: wrap; }
-  .badge { font-size: .7rem; padding: .1rem .5rem; border-radius: 999px; font-weight: 600; white-space: nowrap; }
-  .badge.verified { background: var(--ok-bg); color: var(--ok); }
-  .badge.unverified { background: var(--warn-bg); color: var(--warn); }
-  code { background: var(--code-bg); padding: .05rem .35rem; border-radius: 4px; font-size: .85em; }
-  .unverified-box { background: var(--warn-bg); color: var(--fg); border-left: 3px solid var(--warn); border-radius: 0 8px 8px 0; padding: .6rem .8rem; font-size: .9rem; }
-  .unverified-box ul { margin: .2rem 0 0 1.1rem; padding: 0; }
-  .banner { background: var(--warn-bg); border-left: 3px solid var(--warn); border-radius: 0 8px 8px 0; padding: .7rem .9rem; margin: 0 0 1rem; }
-  .chips { display: flex; gap: .4rem; flex-wrap: wrap; }
-  .chip { font: inherit; font-size: .85rem; padding: .3rem .8rem; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--fg); cursor: pointer; }
-  .chip[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
-  .chip.warn { border-color: var(--warn); color: var(--warn); }
-  .chip.warn[aria-pressed="true"] { background: var(--warn); color: var(--bg); }
-  .panel { margin-top: .75rem; }
-  table { border-collapse: collapse; width: 100%; font-size: .88rem; margin-top: .4rem; }
-  th, td { text-align: left; padding: .3rem .5rem; border-bottom: 1px solid var(--line); vertical-align: top; }
-  th { color: var(--muted); font-weight: 600; font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; }
-  label.tick { display: flex; gap: .5rem; align-items: flex-start; margin: .35rem 0; font-size: .92rem; cursor: pointer; }
-  .passed-note { color: var(--ok); font-weight: 600; }
-  footer { margin-top: 2rem; display: flex; justify-content: space-between; color: var(--muted); font-size: .8rem; flex-wrap: wrap; gap: .5rem; }
-  footer button { background: none; border: none; color: var(--muted); text-decoration: underline; cursor: pointer; font: inherit; }
+  body { margin: 0; }
+  #boot { font: 16px/1.5 system-ui, sans-serif; padding: 2rem 1rem; max-width: 40rem; margin: 0 auto; }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header id="head"></header>
-  <nav id="tabs" aria-label="Levels"></nav>
-  <main id="view"></main>
-  <footer id="foot"></footer>
-</div>
+<div id="root"><p id="boot">Loading…</p></div>
 
 <script id="explain-data" type="application/json">__EXPLAIN_DATA__</script>
 <script>
 (function () {
   'use strict';
+
+  var boot = document.getElementById('boot');
+  if (!window.React || !window.ReactDOM || !window.MaterialUI || !window.htm) {
+    boot.textContent = 'This page could not load Material UI. It needs the network once, to load React and MUI. Connect and reload.';
+    return;
+  }
+
+  var React = window.React, M = window.MaterialUI;
+  var html = window.htm.bind(React.createElement);
+  var useState = React.useState, useEffect = React.useEffect, useRef = React.useRef, useMemo = React.useMemo, useCallback = React.useCallback;
+  var Alert = M.Alert, Box = M.Box, Button = M.Button, Card = M.Card, CardContent = M.CardContent, Checkbox = M.Checkbox,
+    Chip = M.Chip, Container = M.Container, CssBaseline = M.CssBaseline, FormControlLabel = M.FormControlLabel,
+    Stack = M.Stack, Tab = M.Tab, Table = M.Table, TableBody = M.TableBody, TableCell = M.TableCell, TableHead = M.TableHead,
+    TableRow = M.TableRow, Tabs = M.Tabs, TextField = M.TextField, ThemeProvider = M.ThemeProvider, Typography = M.Typography;
 
   var DATA = JSON.parse(document.getElementById('explain-data').textContent);
   var ORDER = ['L0', 'L1', 'L2', 'L3', 'L4', 'L5', 'L6'];
@@ -111,34 +55,19 @@
   var app = DATA.app || {};
   var byId = {};
   (DATA.levels || []).forEach(function (l) { byId[l.id] = l; });
+  document.title = (app.name || 'App') + ' · explained';
 
+  // ---------- saved progress (same shape and key as before, browser only) ----------
   var KEY = 'explain:' + (app.name || 'app') + ':' + (app.path || '');
-  var state = { current: null, passed: {}, revealed: {}, predictions: {}, explanations: {}, ticks: {}, pointsShown: {}, openAnyway: {} };
-  try {
-    var raw = window.localStorage.getItem(KEY);
-    if (raw) { var saved = JSON.parse(raw); Object.keys(state).forEach(function (k) { if (saved[k] !== undefined) state[k] = saved[k]; }); }
-  } catch (e) { /* storage unavailable: run without persistence */ }
-  function save() { try { window.localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { /* ignore */ } }
-
-  var tabsEl = document.getElementById('tabs');
-  var viewEl = document.getElementById('view');
-
-  // Every value from the data goes in through textContent, never innerHTML.
-  function h(tag, props, children) {
-    var el = document.createElement(tag);
-    Object.keys(props || {}).forEach(function (k) {
-      var v = props[k];
-      if (v === undefined || v === null || v === false) return;
-      if (k === 'class') el.className = v;
-      else if (k === 'text') el.textContent = v;
-      else if (k.slice(0, 2) === 'on') el.addEventListener(k.slice(2), v);
-      else el.setAttribute(k, v === true ? '' : v);
-    });
-    (children || []).forEach(function (c) {
-      if (c === null || c === undefined || c === false) return;
-      el.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
-    });
-    return el;
+  function loadState() {
+    var state = { current: null, passed: {}, revealed: {}, predictions: {}, explanations: {}, ticks: {}, pointsShown: {}, openAnyway: {} };
+    try {
+      var raw = window.localStorage.getItem(KEY);
+      if (raw) { var saved = JSON.parse(raw); Object.keys(state).forEach(function (k) { if (saved[k] !== undefined) state[k] = saved[k]; }); }
+    } catch (e) { /* storage unavailable: run without saving */ }
+    var first = ORDER.filter(function (id) { return byId[id]; })[0];
+    if (!state.current || !byId[state.current]) state.current = first;
+    return state;
   }
 
   function levelNum(id) { return ORDER.indexOf(id); }
@@ -151,50 +80,14 @@
     for (var i = levelNum(id) + 1; i < ORDER.length; i++) if (byId[ORDER[i]]) return ORDER[i];
     return null;
   }
-  function isUnlocked(id) {
+  function isUnlocked(state, id) {
     var p = prevPresent(id);
     return !p || !!state.passed[p] || !!state.openAnyway[id];
   }
-  function meta(id, field) {
-    var lv = byId[id] || {};
-    return lv[field] || DEFAULTS[id][field];
-  }
+  function meta(id, field) { return (byId[id] || {})[field] || DEFAULTS[id][field]; }
 
-  // ---------- diagrams (Mermaid, with a readable fallback) ----------
-  var mermaidReady = false, seq = 0;
-  function initMermaid() {
-    if (!window.mermaid) return false;
-    if (!mermaidReady) {
-      window.mermaid.initialize({
-        startOnLoad: false, securityLevel: 'strict',
-        theme: window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default'
-      });
-      mermaidReady = true;
-    }
-    return true;
-  }
-  function fallback(source, why) {
-    return h('div', { class: 'fallback' }, [h('p', { class: 'hint', text: why }), h('pre', { text: source })]);
-  }
-  function paint(container, source, guard) {
-    if (!initMermaid()) {
-      container.textContent = '';
-      container.appendChild(fallback(source, 'The diagram library could not load (it needs the network once). Diagram source:'));
-      return Promise.resolve();
-    }
-    var id = 'mmd' + (++seq);
-    return window.mermaid.render(id, source).then(function (r) {
-      if (guard && !guard()) return;
-      container.innerHTML = r.svg;
-    }).catch(function () {
-      var leftover = document.getElementById('d' + id);
-      if (leftover) leftover.remove();
-      if (guard && !guard()) return;
-      container.textContent = '';
-      container.appendChild(fallback(source, 'This diagram failed to render. Diagram source:'));
-    });
-  }
-
+  // ---------- diagrams: Mermaid inside a Material UI box, with a readable fallback ----------
+  var seq = 0;
   function clean(s) { return String(s).replace(/[;#]/g, ',').replace(/[\r\n]+/g, ' '); }
   function buildSequence(steps, n) {
     var alias = new Map();
@@ -207,253 +100,280 @@
     return lines.join('\n');
   }
 
-  function journeyBlock(journey) {
-    var steps = journey.steps || [];
+  function Diagram(props) {
+    var ref = useRef(null);
+    var dark = M.useTheme().palette.mode === 'dark';
+    var failed = useState(null);
+    var setFailed = failed[1];
+    useEffect(function () {
+      var cancelled = false;
+      var el = ref.current;
+      setFailed(null);
+      if (!window.mermaid) { setFailed('The diagram library could not load (it needs the network once). Diagram source:'); return; }
+      window.mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: dark ? 'dark' : 'default' });
+      var id = 'mmd' + (++seq);
+      window.mermaid.render(id, props.source).then(function (r) {
+        if (!cancelled && el) el.innerHTML = r.svg;
+      }).catch(function () {
+        var leftover = document.getElementById('d' + id);
+        if (leftover) leftover.remove();
+        if (!cancelled) { if (el) el.textContent = ''; setFailed('This diagram failed to render. Diagram source:'); }
+      });
+      return function () { cancelled = true; };
+    }, [props.source, dark]);
+    return html`<${Box} data-testid="diagram" sx=${{ my: 1, overflowX: 'auto' }}>
+      ${failed[0] ? html`<div data-testid="diagram-fallback">
+        <${Typography} variant="caption" color="text.secondary">${failed[0]}<//>
+        <${Box} component="pre" sx=${{ bgcolor: 'action.hover', p: 1.5, borderRadius: 1, overflowX: 'auto', fontSize: 12, m: 0.5 }}>${props.source}<//>
+      </div>` : null}
+      <${Box} ref=${ref} sx=${{ display: 'flex', justifyContent: 'center', '& svg': { maxWidth: '100%', height: 'auto' } }} />
+    <//>`;
+  }
+
+  function Journey(props) {
+    var steps = props.journey.steps || [];
+    var nState = useState(1);
+    var n = nState[0], setN = nState[1];
+    var source = useMemo(function () { return steps.length ? buildSequence(steps, n) : ''; }, [steps, n]);
     if (!steps.length) return null;
-    var n = 1, token = 0;
-    var box = h('div', { class: 'diagram' });
-    var caption = h('p', { class: 'caption' });
-    var counter = h('span', { class: 'counter' });
-    var back = h('button', { class: 'btn', text: '◀ Back', onclick: function () { if (n > 1) { n--; draw(); } } });
-    var next = h('button', { class: 'btn', text: 'Next ▶', onclick: function () { if (n < steps.length) { n++; draw(); } } });
-    function draw() {
-      var mine = ++token;
-      counter.textContent = n + ' / ' + steps.length;
-      caption.textContent = steps[n - 1].text;
-      back.disabled = n === 1;
-      next.disabled = n === steps.length;
-      paint(box, buildSequence(steps, n), function () { return mine === token; });
-    }
-    draw();
-    return h('div', { class: 'journey' }, [
-      h('h4', { text: journey.title || 'Step through the journey' }), box, caption,
-      h('div', { class: 'controls' }, [back, counter, next])
-    ]);
+    return html`<div>
+      <${Typography} variant="subtitle1" sx=${{ fontWeight: 500, mt: 1 }}>${props.journey.title || 'Step through the journey'}<//>
+      <${Diagram} source=${source} />
+      <${Typography} align="center" data-testid="caption" sx=${{ minHeight: '1.6em', mb: 1 }}>${steps[n - 1].text}<//>
+      <${Stack} direction="row" spacing=${2} sx=${{ justifyContent: 'center', alignItems: 'center' }}>
+        <${Button} variant="outlined" disabled=${n === 1} onClick=${function () { setN(n - 1); }}>◀ Back<//>
+        <${Typography} variant="body2" color="text.secondary" data-testid="counter" sx=${{ minWidth: '4rem', textAlign: 'center' }}>${n + ' / ' + steps.length}<//>
+        <${Button} variant="outlined" disabled=${n === steps.length} onClick=${function () { setN(n + 1); }}>Next ▶<//>
+      <//>
+    </div>`;
   }
 
-  function staticDiagram(d) {
-    var box = h('div', { class: 'diagram' });
-    paint(box, d.source);
-    return h('div', {}, [d.title ? h('h4', { text: d.title }) : null, box]);
+  // ---------- small building blocks ----------
+  function Label(props) {
+    return html`<${Typography} variant="overline" component="h3" color="text.secondary" sx=${{ display: 'block', lineHeight: 1.8 }}>${props.children}<//>`;
+  }
+  function Code(props) {
+    return html`<${Box} component="code" sx=${{ bgcolor: 'action.hover', px: 0.6, py: 0.1, borderRadius: 0.5, fontSize: '0.85em', fontFamily: 'ui-monospace, Menlo, monospace' }}>${props.children}<//>`;
   }
 
-  // ---------- optional detail, opened one panel at a time ----------
-  function evidenceList(lv) {
-    return h('ul', { class: 'evidence' }, (lv.evidence || []).map(function (e) {
-      var ok = e.status === 'verified';
-      return h('li', {}, [
-        h('span', { class: 'badge ' + (ok ? 'verified' : 'unverified'), text: ok ? 'verified' + (e.how ? ' · ' + e.how : '') : 'unverified' }),
-        h('span', { text: e.claim }),
-        e.where ? h('code', { text: e.where }) : null
-      ]);
-    }));
+  function EvidenceList(props) {
+    return html`<${Stack} spacing=${1}>
+      ${(props.lv.evidence || []).map(function (e, i) {
+        var ok = e.status === 'verified';
+        return html`<${Stack} key=${i} direction="row" spacing=${1} sx=${{ alignItems: 'baseline', flexWrap: 'wrap', rowGap: 0.5 }}>
+          <${Chip} size="small" color=${ok ? 'success' : 'warning'} variant="outlined" label=${ok ? 'verified' + (e.how ? ' · ' + e.how : '') : 'unverified'} />
+          <${Typography} variant="body2">${e.claim}<//>
+          ${e.where ? html`<${Code}>${e.where}<//>` : null}
+        <//>`;
+      })}
+    <//>`;
   }
 
-  function metaphorPanel(m) {
-    var rows = (m.mapping || []).map(function (r) { return h('tr', {}, [h('td', { text: r[0] }), h('td', { text: r[1] })]); });
-    return h('div', {}, [
-      h('p', { text: m.text }),
-      rows.length ? h('table', {}, [h('thead', {}, [h('tr', {}, [h('th', { text: 'In the metaphor' }), h('th', { text: 'In this app' })])]), h('tbody', {}, rows)]) : null
-    ]);
+  function MetaphorPanel(props) {
+    var m = props.metaphor;
+    return html`<div>
+      <${Typography}>${m.text}<//>
+      ${(m.mapping || []).length ? html`<${Table} size="small">
+        <${TableHead}><${TableRow}><${TableCell}>In the metaphor<//><${TableCell}>In this app<//><//><//>
+        <${TableBody}>${m.mapping.map(function (r, i) { return html`<${TableRow} key=${i}><${TableCell}>${r[0]}<//><${TableCell}>${r[1]}<//><//>`; })}<//>
+      <//>` : null}
+    </div>`;
   }
 
-  function termRows(id) {
-    return (DATA.glossary || []).filter(function (g) { return g.level <= levelNum(id); });
-  }
-  function termsPanel(rows) {
-    return h('table', {}, [
-      h('thead', {}, [h('tr', {}, [h('th', { text: 'Plain words' }), h('th', { text: 'Architecture term' }), h('th', { text: 'Name in the code' })])]),
-      h('tbody', {}, rows.map(function (g) {
-        return h('tr', {}, [h('td', { text: g.plain || '' }), h('td', { text: g.term || '' }), h('td', {}, [g.code ? h('code', { text: g.code }) : ''])]);
-      }))
-    ]);
+  function TermsPanel(props) {
+    return html`<${Table} size="small">
+      <${TableHead}><${TableRow}><${TableCell}>Plain words<//><${TableCell}>Architecture term<//><${TableCell}>Name in the code<//><//><//>
+      <${TableBody}>${props.rows.map(function (g, i) {
+        return html`<${TableRow} key=${i}><${TableCell}>${g.plain || ''}<//><${TableCell}>${g.term || ''}<//><${TableCell}>${g.code ? html`<${Code}>${g.code}<//>` : ''}<//><//>`;
+      })}<//>
+    <//>`;
   }
 
-  function moreCard(id, lv, a) {
+  // ---------- optional detail: small chips, one panel open at a time ----------
+  function MoreCard(props) {
+    var id = props.id, lv = props.lv, a = props.answer;
+    var openState = useState(null);
+    var open = openState[0], setOpen = openState[1];
+    var points = a.points || [], evidence = lv.evidence || [], unverified = lv.unverified || [];
+    var terms = (DATA.glossary || []).filter(function (g) { return g.level <= levelNum(id); });
     var items = [];
-    var points = a.points || [];
-    var evidence = lv.evidence || [];
-    var unverified = lv.unverified || [];
-    var terms = termRows(id);
-    if (a.example) items.push({ key: 'example', label: 'Example', build: function () { return h('div', { class: 'example' }, [h('b', { text: 'Concrete example' }), a.example]); } });
-    if (points.length) items.push({ key: 'more', label: 'More detail', count: points.length, build: function () { return h('ul', { class: 'points' }, points.map(function (p) { return h('li', { text: p }); })); } });
-    if (evidence.length) items.push({ key: 'evidence', label: 'Where this comes from', count: evidence.length, build: function () { return evidenceList(lv); } });
+    if (a.example) items.push({ key: 'example', label: 'Example', build: function () {
+      return html`<${Box} data-testid="example" sx=${{ bgcolor: 'action.hover', borderRadius: 1, p: 1.5 }}><${Label}>Concrete example<//><${Typography}>${a.example}<//><//>`; } });
+    if (points.length) items.push({ key: 'more', label: 'More detail', count: points.length, build: function () {
+      return html`<${Box} component="ul" data-testid="points" sx=${{ m: 0, pl: 3 }}>${points.map(function (p, i) { return html`<li key=${i}><${Typography} variant="body2" sx=${{ my: 0.5 }}>${p}<//></li>`; })}<//>`; } });
+    if (evidence.length) items.push({ key: 'evidence', label: 'Where this comes from', count: evidence.length, build: function () { return html`<div data-testid="evidence"><${EvidenceList} lv=${lv} /></div>`; } });
     if (unverified.length) items.push({ key: 'unverified', label: 'Not confirmed', count: unverified.length, warn: true, build: function () {
-      return h('div', { class: 'unverified-box' }, [h('ul', {}, unverified.map(function (u) { return h('li', { text: u }); }))]);
-    } });
-    if (lv.metaphor && lv.metaphor.text) items.push({ key: 'metaphor', label: 'Metaphor', build: function () { return metaphorPanel(lv.metaphor); } });
-    if (terms.length) items.push({ key: 'terms', label: 'Terms so far', count: terms.length, build: function () { return termsPanel(terms); } });
+      return html`<${Alert} severity="warning" data-testid="unverified"><${Box} component="ul" sx=${{ m: 0, pl: 2 }}>${unverified.map(function (u, i) { return html`<li key=${i}>${u}</li>`; })}<//><//>`; } });
+    if (lv.metaphor && lv.metaphor.text) items.push({ key: 'metaphor', label: 'Metaphor', build: function () { return html`<${MetaphorPanel} metaphor=${lv.metaphor} />`; } });
+    if (terms.length) items.push({ key: 'terms', label: 'Terms so far', count: terms.length, build: function () { return html`<${TermsPanel} rows=${terms} />`; } });
     if (!items.length) return null;
-
-    var open = null;
-    var panel = h('div', { class: 'panel' });
-    var buttons = items.map(function (it) {
-      return h('button', { class: 'chip' + (it.warn ? ' warn' : ''), 'aria-pressed': 'false', text: it.label + (it.count ? ' (' + it.count + ')' : ''),
-        onclick: function () { open = open === it.key ? null : it.key; draw(); } });
-    });
-    function draw() {
-      items.forEach(function (it, i) { buttons[i].setAttribute('aria-pressed', open === it.key ? 'true' : 'false'); });
-      panel.textContent = '';
-      var chosen = items.filter(function (it) { return it.key === open; })[0];
-      if (chosen) panel.appendChild(chosen.build());
-    }
-    return h('section', { class: 'card' }, [h('h3', { text: 'Want more? Open one at a time' }), h('div', { class: 'chips' }, buttons), panel]);
+    var chosen = items.filter(function (it) { return it.key === open; })[0];
+    return html`<${Card} variant="outlined" sx=${{ mb: 2 }}><${CardContent}>
+      <${Label}>Want more? Open one at a time<//>
+      <${Stack} direction="row" spacing=${1} sx=${{ flexWrap: 'wrap', rowGap: 1 }}>
+        ${items.map(function (it) {
+          return html`<${Chip} key=${it.key} clickable aria-pressed=${open === it.key ? 'true' : 'false'}
+            color=${it.warn ? 'warning' : (open === it.key ? 'primary' : 'default')} variant=${open === it.key ? 'filled' : 'outlined'}
+            label=${it.label + (it.count ? ' (' + it.count + ')' : '')}
+            onClick=${function () { setOpen(open === it.key ? null : it.key); }} />`;
+        })}
+      <//>
+      ${chosen ? html`<${Box} data-testid="panel" sx=${{ mt: 2 }}>${chosen.build()}<//>` : null}
+    <//><//>`;
   }
 
-  function checkCard(id, lv) {
+  // ---------- the pass check ----------
+  function CheckCard(props) {
+    var id = props.id, lv = props.lv, state = props.state, update = props.update;
     var chk = lv.check || {};
     var points = chk.goodAnswerIncludes || [];
-    var ta = h('textarea', { rows: '4', placeholder: 'Say it in your own words, without looking at the answer above…' });
-    ta.value = state.explanations[id] || '';
-    var ticks = state.ticks[id] || (state.ticks[id] = []);
-    var pass = h('button', { class: 'btn primary', text: 'Mark ' + id + ' passed' });
-    var need = h('span', { class: 'hint' });
-    var passedBox = h('div', { class: 'row' });
-
-    function refresh() {
-      var written = ta.value.trim().length > 0;
-      var all = points.every(function (_, i) { return !!ticks[i]; });
-      var ready = written && (points.length === 0 || all);
-      pass.disabled = !ready || !!state.passed[id];
-      pass.style.display = state.passed[id] ? 'none' : '';
-      need.textContent = state.passed[id] ? '' : (!written ? 'Write your explanation first.' : (!all ? 'Tick each point your explanation covered.' : ''));
-      passedBox.textContent = '';
-      if (state.passed[id]) {
-        var nxt = nextPresent(id);
-        passedBox.appendChild(h('span', { class: 'passed-note', text: '✓ ' + id + ' passed' }));
-        if (nxt) passedBox.appendChild(h('button', { class: 'btn primary', text: 'Next: ' + nxt + ' ' + meta(nxt, 'title') + ' →', onclick: function () { go(nxt); } }));
-        passedBox.appendChild(h('button', { class: 'btn', text: 'Undo', onclick: function () { delete state.passed[id]; save(); renderTabs(); refresh(); } }));
-      }
-    }
-    ta.addEventListener('input', function () { state.explanations[id] = ta.value; save(); refresh(); });
-    pass.addEventListener('click', function () { state.passed[id] = true; save(); renderTabs(); refresh(); });
-
-    var pointsBox = h('div', { class: 'checklist' });
-    if (points.length) {
-      points.forEach(function (p, i) {
-        var cb = h('input', { type: 'checkbox' });
-        cb.checked = !!ticks[i];
-        cb.addEventListener('change', function () { ticks[i] = cb.checked; save(); refresh(); });
-        pointsBox.appendChild(h('label', { class: 'tick' }, [cb, h('span', { text: p })]));
-      });
-    }
-    var showBtn = h('button', { class: 'btn', text: state.pointsShown[id] ? 'Hide the checklist' : 'Check my answer' });
-    pointsBox.style.display = state.pointsShown[id] ? '' : 'none';
-    showBtn.addEventListener('click', function () {
-      state.pointsShown[id] = !state.pointsShown[id]; save();
-      pointsBox.style.display = state.pointsShown[id] ? '' : 'none';
-      showBtn.textContent = state.pointsShown[id] ? 'Hide the checklist' : 'Check my answer';
-    });
-
-    var card = h('section', { class: 'card' }, [
-      h('h3', { text: 'Check: can you say it without looking?' }),
-      h('p', { text: chk.prompt || DEFAULTS[id].check }),
-      ta,
-      h('div', { class: 'row' }, [showBtn]),
-      points.length ? pointsBox : null,
-      h('div', { class: 'row' }, [pass, need]),
-      passedBox
-    ]);
-    refresh();
-    return card;
+    var ticks = state.ticks[id] || [];
+    var written = (state.explanations[id] || '').trim().length > 0;
+    var all = points.every(function (_, i) { return !!ticks[i]; });
+    var ready = written && (points.length === 0 || all);
+    var passed = !!state.passed[id];
+    var shown = !!state.pointsShown[id];
+    var nxt = nextPresent(id);
+    return html`<${Card} variant="outlined" sx=${{ mb: 2 }}><${CardContent}>
+      <${Label}>Check: can you say it without looking?<//>
+      <${Typography} sx=${{ mb: 1.5 }}>${chk.prompt || DEFAULTS[id].check}<//>
+      <${TextField} multiline minRows=${4} fullWidth placeholder="Say it in your own words, without looking at the answer above…"
+        value=${state.explanations[id] || ''}
+        onChange=${function (e) { var v = e.target.value; update(function (s) { s.explanations[id] = v; }); }} />
+      <${Stack} direction="row" spacing=${1.5} sx=${{ mt: 1.5, alignItems: 'center', flexWrap: 'wrap', rowGap: 1 }}>
+        <${Button} variant="outlined" onClick=${function () { update(function (s) { s.pointsShown[id] = !s.pointsShown[id]; }); }}>${shown ? 'Hide the checklist' : 'Check my answer'}<//>
+      <//>
+      ${shown && points.length ? html`<${Box} data-testid="checklist" sx=${{ mt: 1 }}>
+        ${points.map(function (p, i) {
+          return html`<${FormControlLabel} key=${i} sx=${{ display: 'flex', alignItems: 'flex-start', mr: 0 }}
+            control=${html`<${Checkbox} size="small" checked=${!!ticks[i]} onChange=${function (e) { var c = e.target.checked; update(function (s) { var t = s.ticks[id] || (s.ticks[id] = []); t[i] = c; }); }} />`}
+            label=${html`<${Typography} variant="body2" sx=${{ pt: 0.6 }}>${p}<//>`} />`;
+        })}
+      <//>` : null}
+      <${Stack} direction="row" spacing=${1.5} sx=${{ mt: 1.5, alignItems: 'center', flexWrap: 'wrap', rowGap: 1 }}>
+        ${passed ? html`<${React.Fragment}>
+          <${Typography} sx=${{ color: 'success.main', fontWeight: 500 }}>${'✓ ' + id + ' passed'}<//>
+          ${nxt ? html`<${Button} variant="contained" onClick=${function () { props.go(nxt); }}>${'Next: ' + nxt + ' ' + meta(nxt, 'title') + ' →'}<//>` : null}
+          <${Button} variant="outlined" onClick=${function () { update(function (s) { delete s.passed[id]; }); }}>Undo<//>
+        <//>`
+        : html`<${React.Fragment}>
+          <${Button} variant="contained" disabled=${!ready} onClick=${function () { update(function (s) { s.passed[id] = true; }); }}>${'Mark ' + id + ' passed'}<//>
+          <${Typography} variant="body2" color="text.secondary">${!written ? 'Write your explanation first.' : (!all ? 'Tick each point your explanation covered.' : '')}<//>
+        <//>`}
+      <//>
+    <//><//>`;
   }
 
-  // ---------- views ----------
-  function renderView() {
-    var id = state.current;
+  // ---------- one level ----------
+  function LevelView(props) {
+    var id = props.id, state = props.state, update = props.update, go = props.go;
     var lv = byId[id];
-    viewEl.textContent = '';
-    if (!lv) return;
+    var head = html`<div>
+      <${Typography} variant="h5" component="h2" sx=${{ mt: 1 }}>${id + ' · ' + meta(id, 'title')}
+        ${lv.scope ? html`<${Typography} component="span" variant="caption" color="text.secondary" sx=${{ ml: 1 }}>${lv.scope}<//>` : null}<//>
+      <${Typography} variant="subtitle1" sx=${{ mb: 2 }}>${meta(id, 'question')}<//>
+    </div>`;
 
-    viewEl.appendChild(h('h2', {}, [id + ' · ' + meta(id, 'title'), lv.scope ? h('small', { text: lv.scope }) : null]));
-    viewEl.appendChild(h('p', { class: 'question', text: meta(id, 'question') }));
-
-    if (!isUnlocked(id)) {
+    if (!isUnlocked(state, id)) {
       var p = prevPresent(id);
-      viewEl.appendChild(h('div', { class: 'banner' }, [
-        h('p', { text: id + ' is locked until you pass the ' + p + ' check. Going down before the level above makes sense is the most common way to get lost.' }),
-        h('div', { class: 'row' }, [
-          h('button', { class: 'btn primary', text: 'Go to ' + p, onclick: function () { go(p); } }),
-          h('button', { class: 'btn', text: 'Open ' + id + ' anyway', onclick: function () { state.openAnyway[id] = true; save(); renderTabs(); renderView(); } })
-        ])
-      ]));
-      return;
+      return html`<div>${head}
+        <${Alert} severity="warning" sx=${{ mb: 2 }}>
+          ${id + ' is locked until you pass the ' + p + ' check. Going down before the level above makes sense is the most common way to get lost.'}
+          <${Stack} direction="row" spacing=${1} sx=${{ mt: 1.5 }}>
+            <${Button} variant="contained" onClick=${function () { go(p); }}>${'Go to ' + p}<//>
+            <${Button} variant="outlined" onClick=${function () { update(function (s) { s.openAnyway[id] = true; }); }}>${'Open ' + id + ' anyway'}<//>
+          <//>
+        <//>
+      </div>`;
     }
 
     if (!state.revealed[id]) {
-      var ta = h('textarea', { rows: '3', placeholder: 'Your best guess. Being wrong is useful: the gap is the lesson.' });
-      ta.value = state.predictions[id] || '';
-      ta.addEventListener('input', function () { state.predictions[id] = ta.value; save(); });
-      viewEl.appendChild(h('section', { class: 'card' }, [
-        h('h3', { text: 'Predict first' }),
-        h('p', { text: (lv.predict && lv.predict.prompt) || DEFAULTS[id].predict }),
-        ta,
-        h('div', { class: 'row' }, [
-          h('button', { class: 'btn primary', text: 'Reveal the verified answer', onclick: function () { state.revealed[id] = true; save(); renderView(); } }),
-          h('span', { class: 'hint', text: 'Skipping the guess works, but you learn less.' })
-        ])
-      ]));
-      return;
+      return html`<div>${head}
+        <${Card} variant="outlined" sx=${{ mb: 2 }}><${CardContent}>
+          <${Label}>Predict first<//>
+          <${Typography} sx=${{ mb: 1.5 }}>${(lv.predict && lv.predict.prompt) || DEFAULTS[id].predict}<//>
+          <${TextField} multiline minRows=${3} fullWidth placeholder="Your best guess. Being wrong is useful: the gap is the lesson."
+            value=${state.predictions[id] || ''}
+            onChange=${function (e) { var v = e.target.value; update(function (s) { s.predictions[id] = v; }); }} />
+          <${Stack} direction="row" spacing=${1.5} sx=${{ mt: 1.5, alignItems: 'center', flexWrap: 'wrap', rowGap: 1 }}>
+            <${Button} variant="contained" onClick=${function () { update(function (s) { s.revealed[id] = true; }); }}>Reveal the verified answer<//>
+            <${Typography} variant="body2" color="text.secondary">Skipping the guess works, but you learn less.<//>
+          <//>
+        <//><//>
+      </div>`;
     }
 
     // Revealed: one small paragraph and a visual. Everything else is opt-in.
     var a = lv.answer || {};
     var guess = (state.predictions[id] || '').trim();
-    viewEl.appendChild(h('section', { class: 'card' }, [
-      h('h3', { text: 'Verified answer' }),
-      guess ? h('div', { class: 'compare' }, [
-        h('div', {}, [h('b', { text: 'Your prediction' }), guess]),
-        h('div', {}, [h('b', { text: 'Verified' }), a.summary || ''])
-      ]) : h('p', { class: 'summary', text: a.summary || '' }),
-      a.diagram && a.diagram.source ? staticDiagram(a.diagram) : null,
-      a.journey ? journeyBlock(a.journey) : null
-    ]));
-    var more = moreCard(id, lv, a); if (more) viewEl.appendChild(more);
-    viewEl.appendChild(checkCard(id, lv));
+    return html`<div>${head}
+      <${Card} variant="outlined" sx=${{ mb: 2 }}><${CardContent}>
+        <${Label}>Verified answer<//>
+        ${guess ? html`<${Box} data-testid="compare" sx=${{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 1.5, mb: 1.5 }}>
+          <${Box} sx=${{ bgcolor: 'action.hover', borderRadius: 1, p: 1.5, whiteSpace: 'pre-wrap' }}><${Label}>Your prediction<//>${guess}<//>
+          <${Box} sx=${{ bgcolor: 'action.hover', borderRadius: 1, p: 1.5 }}><${Label}>Verified<//>${a.summary || ''}<//>
+        <//>` : html`<${Typography} variant="h6" data-testid="summary" sx=${{ fontWeight: 400, mb: 1 }}>${a.summary || ''}<//>`}
+        ${a.diagram && a.diagram.source ? html`<div>
+          ${a.diagram.title ? html`<${Typography} variant="subtitle1" sx=${{ fontWeight: 500, mt: 1 }}>${a.diagram.title}<//>` : null}
+          <${Diagram} source=${a.diagram.source} />
+        </div>` : null}
+        ${a.journey ? html`<${Journey} journey=${a.journey} />` : null}
+      <//><//>
+      <${MoreCard} id=${id} lv=${lv} answer=${a} />
+      <${CheckCard} id=${id} lv=${lv} state=${state} update=${update} go=${go} />
+    </div>`;
   }
 
-  function renderTabs() {
-    tabsEl.textContent = '';
-    ORDER.forEach(function (id) {
-      var lv = byId[id];
-      var cls = 'tab' + (id === state.current ? ' active' : '') + (lv && state.passed[id] ? ' passed' : '') + (lv && !isUnlocked(id) ? ' locked' : '');
-      var label = id + ' ' + (lv ? meta(id, 'title') : DEFAULTS[id].title) + (lv && state.passed[id] ? ' ✓' : '') + (lv && !isUnlocked(id) ? ' 🔒' : '');
-      tabsEl.appendChild(h('button', {
-        class: cls, text: label, disabled: lv ? false : 'disabled',
-        title: lv ? '' : 'Not generated yet. Run the explain skill again with a block or scenario to add it.',
-        onclick: function () { go(id); }
-      }));
-    });
-  }
+  // ---------- the page ----------
+  function App() {
+    var prefersDark = M.useMediaQuery('(prefers-color-scheme: dark)');
+    var theme = useMemo(function () {
+      return M.createTheme({ palette: { mode: prefersDark ? 'dark' : 'light' }, shape: { borderRadius: 12 }, typography: { button: { textTransform: 'none' } } });
+    }, [prefersDark]);
+    var st = useState(loadState);
+    var state = st[0], setState = st[1];
+    var update = useCallback(function (fn) {
+      setState(function (prev) {
+        var next = JSON.parse(JSON.stringify(prev));
+        fn(next);
+        try { window.localStorage.setItem(KEY, JSON.stringify(next)); } catch (e) { /* ignore */ }
+        return next;
+      });
+    }, []);
+    var go = useCallback(function (id) { update(function (s) { s.current = id; }); window.scrollTo(0, 0); }, [update]);
 
-  function go(id) { state.current = id; save(); renderTabs(); renderView(); window.scrollTo(0, 0); }
-
-  function renderHead() {
-    document.title = (app.name || 'App') + ' · explained';
-    var head = document.getElementById('head');
     var bits = [app.path, app.commit ? 'commit ' + app.commit : null, app.generatedAt ? 'generated ' + app.generatedAt : null].filter(Boolean);
-    head.appendChild(h('h1', { text: (app.name || 'App') + ', explained' }));
-    head.appendChild(h('p', { class: 'meta', text: bits.join(' · ') }));
-    if ((DATA.verification || {}).method) head.appendChild(h('p', { class: 'meta', text: 'How it was checked: ' + DATA.verification.method }));
-    if (DATA.scenario) head.appendChild(h('p', { class: 'scenario', text: 'Running example: ' + DATA.scenario }));
+    return html`<${ThemeProvider} theme=${theme}><${CssBaseline} />
+      <${Container} maxWidth="md" sx=${{ py: 3 }}>
+        <header>
+          <${Typography} variant="h5" component="h1" sx=${{ fontWeight: 500 }}>${(app.name || 'App') + ', explained'}<//>
+          <${Typography} variant="caption" color="text.secondary" component="p" sx=${{ m: 0 }}>${bits.join(' · ')}<//>
+          ${(DATA.verification || {}).method ? html`<${Typography} variant="caption" color="text.secondary" component="p" sx=${{ m: 0 }}>${'How it was checked: ' + DATA.verification.method}<//>` : null}
+          ${DATA.scenario ? html`<${Alert} severity="info" icon=${false} sx=${{ mt: 1.5 }}>${'Running example: ' + DATA.scenario}<//>` : null}
+        </header>
+        <${Tabs} value=${state.current} variant="scrollable" scrollButtons="auto" allowScrollButtonsMobile
+          onChange=${function (_, v) { go(v); }} sx=${{ mt: 2, mb: 1, borderBottom: 1, borderColor: 'divider' }}>
+          ${ORDER.map(function (id) {
+            var lv = byId[id];
+            var label = id + ' ' + (lv ? meta(id, 'title') : DEFAULTS[id].title) + (lv && state.passed[id] ? ' ✓' : '') + (lv && !isUnlocked(state, id) ? ' 🔒' : '');
+            return html`<${Tab} key=${id} value=${id} label=${label} disabled=${!lv}
+              sx=${{ color: lv && state.passed[id] && id !== state.current ? 'success.main' : undefined, opacity: lv && !isUnlocked(state, id) && id !== state.current ? 0.6 : undefined }} />`;
+          })}
+        <//>
+        <${LevelView} key=${state.current} id=${state.current} state=${state} update=${update} go=${go} />
+        <${Stack} direction="row" sx=${{ mt: 3, justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
+          <${Typography} variant="caption" color="text.secondary">Your notes and progress stay in this browser only.<//>
+          <${Button} size="small" color="inherit" onClick=${function () {
+            if (!window.confirm('Clear your predictions, explanations and progress on this page?')) return;
+            try { window.localStorage.removeItem(KEY); } catch (e) { /* ignore */ }
+            window.location.reload();
+          }}>Reset my progress<//>
+        <//>
+      <//>
+    <//>`;
   }
 
-  function renderFoot() {
-    var foot = document.getElementById('foot');
-    foot.appendChild(h('span', { text: 'Your notes and progress stay in this browser only.' }));
-    foot.appendChild(h('button', { text: 'Reset my progress', onclick: function () {
-      if (!window.confirm('Clear your predictions, explanations and progress on this page?')) return;
-      try { window.localStorage.removeItem(KEY); } catch (e) { /* ignore */ }
-      window.location.reload();
-    } }));
-  }
-
-  var first = ORDER.filter(function (id) { return byId[id]; })[0];
-  if (!state.current || !byId[state.current]) state.current = first;
-  renderHead();
-  renderFoot();
-  renderTabs();
-  renderView();
+  window.ReactDOM.createRoot(document.getElementById('root')).render(html`<${App} />`);
 })();
 </script>
 </body>

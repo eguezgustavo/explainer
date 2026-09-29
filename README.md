@@ -50,7 +50,9 @@ generating an interactive HTML page rather than terminal text. The page walks a
 edges. You predict first. Then a level shows one short paragraph and a
 diagram (a step-through for journeys), and nothing more. The example, extra
 detail, evidence, unconfirmed notes and terms open only when you click them,
-one at a time. The next level unlocks after a say-it-without-looking check. The text is plain, simple English, with no
+one at a time. The next level unlocks after a say-it-without-looking check.
+The page is built with Material UI (MUI 5, loaded from a CDN, so it needs the
+network once). The text is plain, simple English, with no
 metaphors unless you ask. Your notes and progress stay in your browser.
 
 Every claim is verified against the real code before it reaches the page: the

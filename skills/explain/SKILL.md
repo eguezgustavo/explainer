@@ -21,7 +21,7 @@ You are the fact-checker; the page is the tutor. Read the code, verify, write th
 
 ## Files in this skill
 
-- `references/template.html` — the page. Fixed and tested; do not edit it per run.
+- `references/template.html` — the page, built with Material UI (React and MUI 5 loaded from a CDN, no build step). Fixed and tested; do not edit it per run. To change the look, change MUI components or the MUI theme in the template. Do not add custom CSS.
 - `references/data-schema.md` — the data format and what goes in each level. Read it before writing the data.
 - `scripts/build_page.py` — fills the template from the data and refuses to build if a "verified" claim isn't really in the repo.
 - `references/ai-app-learning-playbook.md` — the method.
@@ -58,4 +58,4 @@ You are the fact-checker; the page is the tutor. Read the code, verify, write th
 - The page's gating (a level unlocks after you pass the one above, with an "open anyway" override) and its predict-first, explain-in-your-own-words steps are the playbook's own guards against feeling fluent without being able to reproduce it. Don't remove them to make the page shorter.
 - The playbook's evidence note applies: the design is largely inferred and the research behind it was on children and students, so treat the ladder as a strong default, not a law.
 - The playbook's game layer (§7: drag-and-drop, chaos toggles) isn't built by this skill. If the user asks for it, use `explainer:mental-model` and feed it the same verified data.
-- The page needs the network once to load the diagram library; without it the diagram source is shown as readable text instead of failing.
+- The page needs the network once, to load React, Material UI and the diagram library from a CDN. Without the diagram library, the diagram source is shown as readable text. Without React or Material UI, the page says it needs the network instead of staying blank. It uses MUI 5 because later MUI versions have no single-file browser build.
