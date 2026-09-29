@@ -42,6 +42,22 @@ the plugin:
   roll-up/drill-down, C4's context→code, audience-tiered ELI5→expert, etc.),
   each with a direction (`up`/`down`/`both`) and a criterion for when it fits.
 
+### `explain`
+
+Teaches you an unfamiliar (typically AI-built) application top-down using a
+"zoom ladder": purpose → actors → blocks → journey → inside a block → code →
+edges. Each level uses a metaphor that fades into real names, the cheapest
+format that works (sentence, image, diagram, animation, interactive), a
+predict-then-reveal step, and a say-it-without-looking check before you
+descend. Every claim is verified against the real code so AI-invented
+structure isn't taught as fact.
+
+Run it as `/explainer:explain`, optionally with a repo path or a scenario
+(e.g. `/explainer:explain customer places an order`). It's grounded in
+[`skills/explain/references/ai-app-learning-playbook.md`](skills/explain/references/ai-app-learning-playbook.md),
+which installs alongside the skill. When a level needs a viewable diagram or
+animation it hands off to `mental-model`.
+
 ## Repo layout
 
 ```
@@ -54,4 +70,8 @@ skills/
     references/
       non-linguistic.xml
       abstraction-techniques.xml
+  explain/
+    SKILL.md
+    references/
+      ai-app-learning-playbook.md
 ```
