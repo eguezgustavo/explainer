@@ -1,7 +1,7 @@
 {
   "name": "explainer",
   "description": "Skills for explaining things: picking the best non-linguistic way to represent a concept, and learning an AI-built app top-down.",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "author": {
     "name": "Gustavo Eguez"
   },

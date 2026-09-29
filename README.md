@@ -44,19 +44,26 @@ the plugin:
 
 ### `explain`
 
-Teaches you an unfamiliar (typically AI-built) application top-down using a
+Teaches you an unfamiliar (typically AI-built) application top-down by
+generating an interactive HTML page rather than terminal text. The page walks a
 "zoom ladder": purpose → actors → blocks → journey → inside a block → code →
-edges. Each level uses a metaphor that fades into real names, the cheapest
-format that works (sentence, image, diagram, animation, interactive), a
-predict-then-reveal step, and a say-it-without-looking check before you
-descend. Every claim is verified against the real code so AI-invented
-structure isn't taught as fact.
+edges. Each level is in plain words with a concrete example from the app, lets
+you predict before it reveals the verified answer, shows diagrams (with a
+step-through for journeys), and gates the next level behind a
+say-it-without-looking check. Metaphors are optional and collapsed by default.
+Your notes and progress stay in your browser.
+
+Every claim is verified against the real code before it reaches the page: the
+build script refuses to produce the page if a "verified" file, line, snippet or
+class name isn't actually in the repo, so AI-invented structure isn't taught as
+fact.
 
 Run it as `/explainer:explain`, optionally with a repo path or a scenario
-(e.g. `/explainer:explain customer places an order`). It's grounded in
+(e.g. `/explainer:explain customer places an order`). Without a scenario it
+builds L0–L3 for the whole app; with a block or scenario it builds L3–L6 for
+that branch. It's grounded in
 [`skills/explain/references/ai-app-learning-playbook.md`](skills/explain/references/ai-app-learning-playbook.md),
-which installs alongside the skill. When a level needs a viewable diagram or
-animation it hands off to `mental-model`.
+which installs alongside the skill.
 
 ## Repo layout
 
@@ -72,6 +79,10 @@ skills/
       abstraction-techniques.xml
   explain/
     SKILL.md
+    scripts/
+      build_page.py            # fills the template, verifies claims against the repo
     references/
       ai-app-learning-playbook.md
+      template.html            # the learning page (fixed UI)
+      data-schema.md           # the data format the page is built from
 ```
