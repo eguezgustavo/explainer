@@ -25,6 +25,12 @@ SKIP_DIRS = {".git", "node_modules", "dist", "build", ".venv", "venv", "__pycach
 SECRET_FILE = re.compile(r"(^\.env)|\.pem$|\.key$|credential|secret", re.IGNORECASE)
 MAX_FILE_BYTES = 2_000_000
 MAX_FILES = 30_000
+# The default view of a level is one small paragraph and a visual. Everything
+# else is opt-in on the page, but it should still be short.
+MAX_SUMMARY_WORDS = 60
+MAX_EXAMPLE_WORDS = 70
+MAX_POINT_WORDS = 35
+MAX_POINTS = 8
 IDENT = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
 WHERE = re.compile(r"^(?P<path>[^:]+?)(?::(?P<a>\d+)(?:-(?P<b>\d+))?)?$")
 PATHLIKE = re.compile(r"[/\\]|\.(ts|tsx|js|jsx|mjs|py|go|rs|java|rb|json|md|yml|yaml|html|css)$")
@@ -92,6 +98,10 @@ def check_evidence(repo: Path, where: str, contains):
     return None
 
 
+def word_count(text) -> int:
+    return len(str(text).split())
+
+
 def code_names(code: str):
     """(is_path, names) for a glossary 'code' cell."""
     return (bool(PATHLIKE.search(code)), IDENT.findall(code))
@@ -116,8 +126,24 @@ def validate(data: dict, repo: Path):
         if lid in seen:
             errors.append(f"{lid}: listed twice")
         seen.add(lid)
-        if not (lv.get("answer") or {}).get("summary"):
+        answer = lv.get("answer") or {}
+        summary = answer.get("summary") or ""
+        if not summary:
             errors.append(f"{lid}: answer.summary is required")
+        elif word_count(summary) > MAX_SUMMARY_WORDS:
+            errors.append(
+                f"{lid}: answer.summary is {word_count(summary)} words. Keep it to {MAX_SUMMARY_WORDS} or fewer "
+                "(one small paragraph). Move the rest into example or points, which stay closed until the reader opens them.")
+        if not (answer.get("diagram") or answer.get("journey")):
+            warnings.append(f"{lid}: no diagram or journey. Every level should have a visual, not only text.")
+        if word_count(answer.get("example") or "") > MAX_EXAMPLE_WORDS:
+            warnings.append(f"{lid}: answer.example is over {MAX_EXAMPLE_WORDS} words. Shorten it.")
+        points = answer.get("points") or []
+        if len(points) > MAX_POINTS:
+            warnings.append(f"{lid}: {len(points)} points. Keep it to {MAX_POINTS} or fewer.")
+        for point in points:
+            if word_count(point) > MAX_POINT_WORDS:
+                warnings.append(f"{lid}: a point is over {MAX_POINT_WORDS} words: {str(point)[:50]!r}...")
         if not (lv.get("check") or {}).get("goodAnswerIncludes"):
             warnings.append(f"{lid}: check.goodAnswerIncludes is empty, so the pass check can't be self-graded")
         if not lv.get("evidence"):
@@ -139,7 +165,6 @@ def validate(data: dict, repo: Path):
             if err:
                 errors.append(f"{lid}: {err} (claim: {ev.get('claim')!r})")
 
-        answer = lv.get("answer") or {}
         sources = [answer.get("diagram", {}).get("source", "")] if answer.get("diagram") else []
         if ";" in "".join(sources):
             warnings.append(f"{lid}: diagram source contains ';' which Mermaid treats as a statement break")

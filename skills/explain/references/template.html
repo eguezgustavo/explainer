@@ -45,9 +45,9 @@
   .row { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; margin-top: .6rem; }
   .hint { color: var(--muted); font-size: .85rem; }
   .summary { font-size: 1.05rem; margin: 0 0 .75rem; }
-  .example { background: var(--code-bg); border-radius: 8px; padding: .6rem .8rem; margin: 0 0 .75rem; font-size: .95rem; }
+  .example { background: var(--code-bg); border-radius: 8px; padding: .6rem .8rem; margin: 0; font-size: .95rem; }
   .example b { display: block; font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: .15rem; }
-  ul.points { margin: .25rem 0 .5rem 1.1rem; padding: 0; }
+  ul.points { margin: .25rem 0 .25rem 1.1rem; padding: 0; }
   ul.points li { margin: .2rem 0; }
   .compare { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin: 0 0 .75rem; }
   .compare > div { background: var(--code-bg); border-radius: 8px; padding: .6rem .8rem; font-size: .92rem; white-space: pre-wrap; }
@@ -65,11 +65,15 @@
   .badge.verified { background: var(--ok-bg); color: var(--ok); }
   .badge.unverified { background: var(--warn-bg); color: var(--warn); }
   code { background: var(--code-bg); padding: .05rem .35rem; border-radius: 4px; font-size: .85em; }
-  .unverified-box { background: var(--warn-bg); color: var(--fg); border-left: 3px solid var(--warn); border-radius: 0 8px 8px 0; padding: .6rem .8rem; margin-top: .75rem; font-size: .9rem; }
-  .unverified-box b { color: var(--warn); }
+  .unverified-box { background: var(--warn-bg); color: var(--fg); border-left: 3px solid var(--warn); border-radius: 0 8px 8px 0; padding: .6rem .8rem; font-size: .9rem; }
+  .unverified-box ul { margin: .2rem 0 0 1.1rem; padding: 0; }
   .banner { background: var(--warn-bg); border-left: 3px solid var(--warn); border-radius: 0 8px 8px 0; padding: .7rem .9rem; margin: 0 0 1rem; }
-  details.metaphor { margin: .75rem 0 0; }
-  details.metaphor summary { cursor: pointer; color: var(--muted); font-size: .9rem; }
+  .chips { display: flex; gap: .4rem; flex-wrap: wrap; }
+  .chip { font: inherit; font-size: .85rem; padding: .3rem .8rem; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--fg); cursor: pointer; }
+  .chip[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+  .chip.warn { border-color: var(--warn); color: var(--warn); }
+  .chip.warn[aria-pressed="true"] { background: var(--warn); color: var(--bg); }
+  .panel { margin-top: .75rem; }
   table { border-collapse: collapse; width: 100%; font-size: .88rem; margin-top: .4rem; }
   th, td { text-align: left; padding: .3rem .5rem; border-bottom: 1px solid var(--line); vertical-align: top; }
   th { color: var(--muted); font-weight: 600; font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; }
@@ -233,11 +237,9 @@
     return h('div', {}, [d.title ? h('h4', { text: d.title }) : null, box]);
   }
 
-  // ---------- cards ----------
-  function evidenceCard(lv) {
-    var items = lv.evidence || [];
-    if (!items.length && !(lv.unverified || []).length) return null;
-    var list = h('ul', { class: 'evidence' }, items.map(function (e) {
+  // ---------- optional detail, opened one panel at a time ----------
+  function evidenceList(lv) {
+    return h('ul', { class: 'evidence' }, (lv.evidence || []).map(function (e) {
       var ok = e.status === 'verified';
       return h('li', {}, [
         h('span', { class: 'badge ' + (ok ? 'verified' : 'unverified'), text: ok ? 'verified' + (e.how ? ' · ' + e.how : '') : 'unverified' }),
@@ -245,34 +247,57 @@
         e.where ? h('code', { text: e.where }) : null
       ]);
     }));
-    var un = (lv.unverified || []).length
-      ? h('div', { class: 'unverified-box' }, [h('b', { text: 'Not confirmed: ' }), (lv.unverified || []).join(' · ')])
-      : null;
-    return h('section', { class: 'card' }, [h('h3', { text: 'Where this comes from' }), items.length ? list : null, un]);
   }
 
-  function metaphorBlock(m) {
-    if (!m || !m.text) return null;
+  function metaphorPanel(m) {
     var rows = (m.mapping || []).map(function (r) { return h('tr', {}, [h('td', { text: r[0] }), h('td', { text: r[1] })]); });
-    return h('details', { class: 'metaphor' }, [
-      h('summary', { text: 'Metaphor (optional)' }),
+    return h('div', {}, [
       h('p', { text: m.text }),
       rows.length ? h('table', {}, [h('thead', {}, [h('tr', {}, [h('th', { text: 'In the metaphor' }), h('th', { text: 'In this app' })])]), h('tbody', {}, rows)]) : null
     ]);
   }
 
-  function termsCard(id) {
-    var rows = (DATA.glossary || []).filter(function (g) { return g.level <= levelNum(id); });
-    if (!rows.length) return null;
-    return h('section', { class: 'card' }, [
-      h('h3', { text: 'Terms so far' }),
-      h('table', {}, [
-        h('thead', {}, [h('tr', {}, [h('th', { text: 'Plain words' }), h('th', { text: 'Architecture term' }), h('th', { text: 'Name in the code' })])]),
-        h('tbody', {}, rows.map(function (g) {
-          return h('tr', {}, [h('td', { text: g.plain || '' }), h('td', { text: g.term || '' }), h('td', {}, [g.code ? h('code', { text: g.code }) : ''])]);
-        }))
-      ])
+  function termRows(id) {
+    return (DATA.glossary || []).filter(function (g) { return g.level <= levelNum(id); });
+  }
+  function termsPanel(rows) {
+    return h('table', {}, [
+      h('thead', {}, [h('tr', {}, [h('th', { text: 'Plain words' }), h('th', { text: 'Architecture term' }), h('th', { text: 'Name in the code' })])]),
+      h('tbody', {}, rows.map(function (g) {
+        return h('tr', {}, [h('td', { text: g.plain || '' }), h('td', { text: g.term || '' }), h('td', {}, [g.code ? h('code', { text: g.code }) : ''])]);
+      }))
     ]);
+  }
+
+  function moreCard(id, lv, a) {
+    var items = [];
+    var points = a.points || [];
+    var evidence = lv.evidence || [];
+    var unverified = lv.unverified || [];
+    var terms = termRows(id);
+    if (a.example) items.push({ key: 'example', label: 'Example', build: function () { return h('div', { class: 'example' }, [h('b', { text: 'Concrete example' }), a.example]); } });
+    if (points.length) items.push({ key: 'more', label: 'More detail', count: points.length, build: function () { return h('ul', { class: 'points' }, points.map(function (p) { return h('li', { text: p }); })); } });
+    if (evidence.length) items.push({ key: 'evidence', label: 'Where this comes from', count: evidence.length, build: function () { return evidenceList(lv); } });
+    if (unverified.length) items.push({ key: 'unverified', label: 'Not confirmed', count: unverified.length, warn: true, build: function () {
+      return h('div', { class: 'unverified-box' }, [h('ul', {}, unverified.map(function (u) { return h('li', { text: u }); }))]);
+    } });
+    if (lv.metaphor && lv.metaphor.text) items.push({ key: 'metaphor', label: 'Metaphor', build: function () { return metaphorPanel(lv.metaphor); } });
+    if (terms.length) items.push({ key: 'terms', label: 'Terms so far', count: terms.length, build: function () { return termsPanel(terms); } });
+    if (!items.length) return null;
+
+    var open = null;
+    var panel = h('div', { class: 'panel' });
+    var buttons = items.map(function (it) {
+      return h('button', { class: 'chip' + (it.warn ? ' warn' : ''), 'aria-pressed': 'false', text: it.label + (it.count ? ' (' + it.count + ')' : ''),
+        onclick: function () { open = open === it.key ? null : it.key; draw(); } });
+    });
+    function draw() {
+      items.forEach(function (it, i) { buttons[i].setAttribute('aria-pressed', open === it.key ? 'true' : 'false'); });
+      panel.textContent = '';
+      var chosen = items.filter(function (it) { return it.key === open; })[0];
+      if (chosen) panel.appendChild(chosen.build());
+    }
+    return h('section', { class: 'card' }, [h('h3', { text: 'Want more? Open one at a time' }), h('div', { class: 'chips' }, buttons), panel]);
   }
 
   function checkCard(id, lv) {
@@ -355,37 +380,36 @@
       return;
     }
 
-    var ta = h('textarea', { rows: '3', placeholder: 'Your best guess. Being wrong is useful: the gap is the lesson.' });
-    ta.value = state.predictions[id] || '';
-    ta.addEventListener('input', function () { state.predictions[id] = ta.value; save(); });
-    var reveal = h('button', { class: 'btn primary', text: state.revealed[id] ? 'Answer shown' : 'Reveal the verified answer', disabled: state.revealed[id] ? 'disabled' : false,
-      onclick: function () { state.revealed[id] = true; save(); renderView(); } });
-    viewEl.appendChild(h('section', { class: 'card' }, [
-      h('h3', { text: 'Predict first' }),
-      h('p', { text: (lv.predict && lv.predict.prompt) || DEFAULTS[id].predict }),
-      ta,
-      h('div', { class: 'row' }, [reveal, h('span', { class: 'hint', text: 'Skipping the guess works, but you learn less.' })])
-    ]));
-    if (!state.revealed[id]) return;
+    if (!state.revealed[id]) {
+      var ta = h('textarea', { rows: '3', placeholder: 'Your best guess. Being wrong is useful: the gap is the lesson.' });
+      ta.value = state.predictions[id] || '';
+      ta.addEventListener('input', function () { state.predictions[id] = ta.value; save(); });
+      viewEl.appendChild(h('section', { class: 'card' }, [
+        h('h3', { text: 'Predict first' }),
+        h('p', { text: (lv.predict && lv.predict.prompt) || DEFAULTS[id].predict }),
+        ta,
+        h('div', { class: 'row' }, [
+          h('button', { class: 'btn primary', text: 'Reveal the verified answer', onclick: function () { state.revealed[id] = true; save(); renderView(); } }),
+          h('span', { class: 'hint', text: 'Skipping the guess works, but you learn less.' })
+        ])
+      ]));
+      return;
+    }
 
+    // Revealed: one small paragraph and a visual. Everything else is opt-in.
     var a = lv.answer || {};
     var guess = (state.predictions[id] || '').trim();
-    var answer = h('section', { class: 'card' }, [
+    viewEl.appendChild(h('section', { class: 'card' }, [
       h('h3', { text: 'Verified answer' }),
       guess ? h('div', { class: 'compare' }, [
         h('div', {}, [h('b', { text: 'Your prediction' }), guess]),
         h('div', {}, [h('b', { text: 'Verified' }), a.summary || ''])
       ]) : h('p', { class: 'summary', text: a.summary || '' }),
-      a.example ? h('div', { class: 'example' }, [h('b', { text: 'Concrete example' }), a.example]) : null,
-      (a.points || []).length ? h('ul', { class: 'points' }, a.points.map(function (p) { return h('li', { text: p }); })) : null,
       a.diagram && a.diagram.source ? staticDiagram(a.diagram) : null,
-      a.journey ? journeyBlock(a.journey) : null,
-      metaphorBlock(lv.metaphor)
-    ]);
-    viewEl.appendChild(answer);
-    var ev = evidenceCard(lv); if (ev) viewEl.appendChild(ev);
+      a.journey ? journeyBlock(a.journey) : null
+    ]));
+    var more = moreCard(id, lv, a); if (more) viewEl.appendChild(more);
     viewEl.appendChild(checkCard(id, lv));
-    var terms = termsCard(id); if (terms) viewEl.appendChild(terms);
   }
 
   function renderTabs() {

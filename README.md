@@ -47,10 +47,10 @@ the plugin:
 Teaches you an unfamiliar (typically AI-built) application top-down by
 generating an interactive HTML page rather than terminal text. The page walks a
 "zoom ladder": purpose → actors → blocks → journey → inside a block → code →
-edges. Each level is in plain words with a concrete example from the app, lets
-you predict before it reveals the verified answer, shows diagrams (with a
-step-through for journeys), and gates the next level behind a
-say-it-without-looking check. The text is plain, simple English, with no
+edges. You predict first. Then a level shows one short paragraph and a
+diagram (a step-through for journeys), and nothing more. The example, extra
+detail, evidence, unconfirmed notes and terms open only when you click them,
+one at a time. The next level unlocks after a say-it-without-looking check. The text is plain, simple English, with no
 metaphors unless you ask. Your notes and progress stay in your browser.
 
 Every claim is verified against the real code before it reaches the page: the

@@ -25,7 +25,7 @@
   "question": "What are the big parts?",
   "predict": { "prompt": "Sketch the big parts and which one depends on which." },
   "answer": {
-    "summary": "Plain-words answer, 1-3 sentences.",
+    "summary": "Plain-words answer. At most 60 words, 2-3 short sentences.",
     "example": "The same idea using a concrete, real-looking case from the app's own data or tests.",
     "points": ["Optional list: actors, blocks, files in call order, rules."],
     "diagram": { "title": "Blocks", "kind": "mermaid", "source": "flowchart LR\n  UI --> Logic" },
@@ -40,17 +40,27 @@
 
 `id` is `L0`..`L6`. `title`, `question`, `predict.prompt` and `check.prompt` fall back to the playbook wording if omitted. `scope` is a short label such as `whole app` or `block: Auth`.
 
+### Text budget: what the reader sees
+
+When the reader reveals a level, the page shows **only `summary` and the visual** (`diagram` or `journey`). Everything else is closed behind small buttons and opens one at a time: `example`, `points` (as "More detail"), `evidence`, `unverified`, `metaphor` and the glossary.
+
+- `summary`: at most 60 words, 2–3 short sentences, no lists. The build fails above 60 words.
+- Every level needs a visual. The build warns when a level has neither `diagram` nor `journey`.
+- `example`: at most about 70 words. `points`: at most 8, each under 25 words.
+- If you want a second paragraph, draw it, or move it into `example` or `points`.
+- Keep diagrams readable. A wide left-to-right chain of more than 4 boxes is scaled down until its text is tiny. Use `flowchart TD` (top-down) for cycles and long chains, `flowchart LR` only for short ones, and keep each label under about 6 words.
+
 ### What goes in each level
 
-| Level | `answer` | Format |
+| Level | Visual (shown by default) | In `summary`, `example`, `points` (closed by default) |
 |---|---|---|
-| L0 Purpose | one plain sentence a non-engineer would get, plus a concrete example | sentence |
-| L1 Actors | who uses it and what each wants (`points`), outside systems it touches | list, or a `flowchart LR` context diagram |
-| L2 Blocks | the big parts and what depends on what, mapped to real folders | `flowchart` diagram |
-| L3 Journey | one scenario across the blocks, in order | `journey` (step-through) |
-| L4 Inside a block | rules, entities, and the states an entity moves through, marking where each rule is enforced | `stateDiagram-v2` diagram plus `points` |
-| L5 Code | the files and functions the scenario touches, in call order, one line each | `points`, with `evidence` per file |
-| L6 Edges | one failure per step and two rejected alternatives, each with the reason | `points` |
+| L0 Purpose | a small `flowchart LR` of the main cycle, 4–6 boxes | one plain sentence for a non-engineer; a concrete example |
+| L1 Actors | `flowchart LR` context diagram | who uses it and what each wants; outside systems |
+| L2 Blocks | `flowchart` of the blocks and what depends on what | blocks mapped to real folders |
+| L3 Journey | `journey` (step-through) | one scenario across the blocks; notes on writes and order |
+| L4 Inside a block | `stateDiagram-v2` of an entity's states | rules, and where each one is enforced |
+| L5 Code | `journey` with files as the actors, in call order | one line per file; `evidence` per file |
+| L6 Edges | `flowchart` showing where each failure ends up | two rejected alternatives, each with the reason |
 
 ## Evidence rules (this is what makes it safe to trust)
 
